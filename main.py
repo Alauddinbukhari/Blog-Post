@@ -1,5 +1,5 @@
 from functools import wraps
-
+import os
 from flask import Flask, render_template, redirect, url_for, flash, request, abort
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
@@ -17,7 +17,8 @@ ckeditor = CKEditor(app)
 Bootstrap(app)
 login_manager = LoginManager()
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+# postgres://blogsdb_yife_user:eglEEsmvs0OzuyuLyagx0dVB6IchWU50@dpg-cidvtdp5rnukltlqfkq0-a.singapore-postgres.render.com/blogsdb_yife
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 login_manager.init_app(app)
