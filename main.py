@@ -123,7 +123,7 @@ with app.app_context():
             user = load_user(enter_email)
             login_user(user)
 
-            return redirect(url_for("get_all_posts"))
+            return redirect("/")
 
         return render_template("register.html", form=form, login=current_user)
 
@@ -134,16 +134,16 @@ with app.app_context():
         if request.method == "POST":
             user_email = request.form.get("email")
             password_user = request.form.get("password")
-            print(password_user)
+
             if user_email in all_email_list():
                 user = db.session.execute(db.select(User).filter_by(email=user_email)).scalar_one()
-                print(user)
+
                 if check_password_hash(password=password_user, pwhash=user.password):
-                    print(user_email)
+
                     user = load_user(user_email)
                     login_user(user)
                     flash("You have logged in ")
-                    return redirect(url_for("get_all_posts"))
+                    return redirect("/")
                 else:
                     flash("Password enter is not correct")
                     return redirect(url_for("login"))
